@@ -3,6 +3,7 @@ const url = require('url');
 const { StringDecoder } = require('string_decoder');
 const routes = require('../routes')
 const { notFoundHandler } = require('../handlers/routeHandlers/notFoundHandler')
+const { parseJSON } = require('../helpers/utilities');
 // module scuff holding 
 const handler = {}
 
@@ -23,7 +24,6 @@ handler.handleReqRes = (req, res) => {
         method,
         queryStringObject,
         headersObject
-
     }
 
     const decoder = new StringDecoder('utf-8');
@@ -38,6 +38,7 @@ handler.handleReqRes = (req, res) => {
 
     req.on('end', () => {
         realData += decoder.end();
+        requestProperties.body = parseJSON(realData);
 
         // to choose handler and also accept the real data 
         chosenHandler(requestProperties, (statusCode, payload) => {
