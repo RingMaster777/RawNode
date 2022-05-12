@@ -46,7 +46,7 @@ handler._users.post = (requestProperties, callback) => {
 
   if (firstName && lastName && phone && password && tosAgreement) {
     // make sure that this user already doesn't exist
-    data.read("user", phone, (err) => {
+    data.read("users", phone, (err) => {
       if (err) {
         const userObject = {
           firstName,
